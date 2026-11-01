@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>To Coco</title>
+  <title>to coco</title>
 
-  <!-- 连笔字体 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -25,9 +24,7 @@
     }
 
     body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background: #000;
       font-family: sans-serif;
     }
 
@@ -45,79 +42,93 @@
       display: block;
     }
 
-    /* 主线条 */
-    .main-line-glow {
+    /* 非常淡的残影底线 */
+    .ghost-line {
       fill: none;
-      stroke: #ff8fb4;
-      stroke-width: 10;
+      stroke: rgba(255,255,255,0.08);
+      stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
-      opacity: 0.18;
-      filter: blur(7px);
+      filter: blur(0.4px);
     }
 
-    .main-line {
+    /* 主发光拖尾 - 外层光 */
+    .tail-glow {
       fill: none;
-      stroke: #ffd2e1;
-      stroke-width: 2.8;
+      stroke: rgba(255,255,255,0.22);
+      stroke-width: 8;
       stroke-linecap: round;
       stroke-linejoin: round;
+      filter: blur(5px);
     }
 
-    .tail-line {
+    /* 主发光拖尾 - 中层光 */
+    .tail-mid {
       fill: none;
-      stroke: #ff8fb4;
+      stroke: rgba(255,255,255,0.38);
       stroke-width: 4.5;
       stroke-linecap: round;
       stroke-linejoin: round;
-      opacity: 0.95;
-      filter: drop-shadow(0 0 7px rgba(255, 120, 170, 0.8))
-              drop-shadow(0 0 14px rgba(255, 120, 170, 0.35));
+      filter: blur(2px);
+    }
+
+    /* 主线核心：细白线 */
+    .tail-core {
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .dot-glow {
-      fill: #ff9fc0;
-      opacity: 0.95;
-      filter: blur(8px);
+      fill: rgba(255,255,255,0.95);
+      filter: blur(6px);
     }
 
     .dot-core {
-      fill: #fff2f7;
-      filter: drop-shadow(0 0 6px rgba(255,255,255,0.8));
+      fill: #ffffff;
     }
 
-    /* 底部文字 */
     .caption {
       position: absolute;
-      bottom: 28px;
-      width: 100%;
+      left: 0;
+      right: 0;
+      bottom: 30px;
       text-align: center;
-      color: #ffd5e4;
-      font-size: clamp(28px, 3.2vw, 52px);
-      font-family: "Parisienne", cursive;
-      letter-spacing: 1px;
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(34px, 4vw, 60px);
+      color: #ffd7e6;
+      letter-spacing: 0.5px;
       text-shadow:
-        0 0 6px rgba(255, 170, 205, 0.75),
-        0 0 14px rgba(255, 120, 170, 0.45),
-        0 0 28px rgba(255, 120, 170, 0.25);
+        0 0 8px rgba(255, 170, 205, 0.85),
+        0 0 16px rgba(255, 150, 190, 0.55),
+        0 0 28px rgba(255, 120, 170, 0.28);
       user-select: none;
       pointer-events: none;
     }
 
-    /* 背景小爱心 */
+    /* 随机出现的小爱心容器 */
+    #sparkLayer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
     .spark-heart {
       position: absolute;
       width: 14px;
       height: 14px;
-      background: #ff7daf;
-      transform: rotate(-45deg) scale(0.9);
-      opacity: 0;
+      transform: rotate(-45deg) scale(0.75);
+      background: #ff82b3;
       border-radius: 3px;
+      opacity: 0;
       box-shadow:
-        0 0 10px rgba(255, 120, 170, 0.95),
-        0 0 20px rgba(255, 120, 170, 0.55),
-        0 0 36px rgba(255, 120, 170, 0.28);
-      animation: twinkle 3.2s infinite ease-in-out;
+        0 0 8px rgba(255, 120, 170, 0.9),
+        0 0 18px rgba(255, 120, 170, 0.55),
+        0 0 30px rgba(255, 120, 170, 0.28);
+      animation: heartFlash 1.5s ease-out forwards;
     }
 
     .spark-heart::before,
@@ -126,206 +137,211 @@
       position: absolute;
       width: 14px;
       height: 14px;
-      background: #ff7daf;
+      background: #ff82b3;
       border-radius: 50%;
       box-shadow:
-        0 0 10px rgba(255, 120, 170, 0.95),
-        0 0 20px rgba(255, 120, 170, 0.55),
-        0 0 36px rgba(255, 120, 170, 0.28);
+        0 0 8px rgba(255, 120, 170, 0.9),
+        0 0 18px rgba(255, 120, 170, 0.55),
+        0 0 30px rgba(255, 120, 170, 0.28);
     }
 
     .spark-heart::before {
-      top: -7px;
       left: 0;
+      top: -7px;
     }
 
     .spark-heart::after {
-      top: 0;
       left: 7px;
+      top: 0;
     }
 
-    @keyframes twinkle {
-      0%, 100% {
-        opacity: 0.05;
-        transform: rotate(-45deg) scale(0.78);
+    @keyframes heartFlash {
+      0% {
+        opacity: 0;
+        transform: rotate(-45deg) scale(0.55);
       }
-      30% {
-        opacity: 0.95;
-        transform: rotate(-45deg) scale(1);
+      20% {
+        opacity: 1;
+        transform: rotate(-45deg) scale(0.95);
       }
       55% {
-        opacity: 0.35;
-        transform: rotate(-45deg) scale(0.9);
-      }
-      75% {
         opacity: 0.9;
-        transform: rotate(-45deg) scale(1.08);
+        transform: rotate(-45deg) scale(1.05);
+      }
+      100% {
+        opacity: 0;
+        transform: rotate(-45deg) scale(0.75);
       }
     }
   </style>
 </head>
 <body>
   <div class="scene">
-    <!-- 背景闪烁小爱心 -->
-    <div class="spark-heart" style="left: 10%; top: 18%; animation-delay: 0.1s;"></div>
-    <div class="spark-heart" style="left: 22%; top: 72%; width: 10px; height: 10px; animation-delay: 1.1s;"></div>
-    <div class="spark-heart" style="left: 34%; top: 20%; width: 12px; height: 12px; animation-delay: 2.0s;"></div>
-    <div class="spark-heart" style="left: 58%; top: 14%; animation-delay: 0.7s;"></div>
-    <div class="spark-heart" style="left: 72%; top: 76%; width: 11px; height: 11px; animation-delay: 1.8s;"></div>
-    <div class="spark-heart" style="left: 86%; top: 26%; width: 13px; height: 13px; animation-delay: 2.5s;"></div>
+    <div id="sparkLayer"></div>
 
     <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid meet">
-      <!-- 柔和的底部发光 -->
-      <path id="baseGlowPath" class="main-line-glow"></path>
+      <!-- 淡残影 -->
+      <path id="ghostPath" class="ghost-line"></path>
 
-      <!-- 非常淡的静态基线 -->
-      <path id="baseLinePath" class="main-line" opacity="0.08"></path>
+      <!-- 三层拖尾 -->
+      <path id="tailGlow" class="tail-glow"></path>
+      <path id="tailMid" class="tail-mid"></path>
+      <path id="tailCore" class="tail-core"></path>
 
-      <!-- 动态拖尾 -->
-      <path id="tailPath" class="tail-line"></path>
-
-      <!-- 发光小点 -->
-      <circle id="dotGlow" class="dot-glow" r="10"></circle>
-      <circle id="dotCore" class="dot-core" r="3.6"></circle>
+      <!-- 小光点 -->
+      <circle id="dotGlow" class="dot-glow" r="7"></circle>
+      <circle id="dotCore" class="dot-core" r="2.5"></circle>
     </svg>
 
     <div class="caption">to coco</div>
   </div>
 
   <script>
-    // ------------------------------
-    // 两套路径：heart / kitty-ears
-    // ------------------------------
-    const PATH_HEART = `
+    // =========================
+    // 路径：更精致的爱心 + 可爱猫耳朵
+    // =========================
+
+    const HEART_PATH = `
       M 40 350
-      L 150 350
+      L 148 350
 
-      L 170 350
-      L 186 300
-      L 200 378
-      L 220 160
-      L 240 510
-      L 258 325
-      L 274 362
-      L 290 278
-      L 308 342
-      L 324 315
-      L 342 350
+      L 166 350
+      L 182 306
+      L 196 380
+      L 216 168
+      L 236 505
+      L 254 328
+      L 270 360
+      L 287 282
+      L 304 340
+      L 322 316
+      L 340 350
 
-      L 455 350
+      L 480 350
 
-      C 485 350, 500 282, 540 260
-      C 572 242, 610 258, 632 292
-      C 646 312, 654 328, 660 350
+      C 500 350, 512 314, 530 286
+      C 548 258, 575 236, 605 238
+      C 630 240, 648 258, 660 286
 
-      C 666 328, 674 312, 688 292
-      C 710 258, 748 242, 780 260
-      C 820 282, 835 350, 865 350
+      C 672 258, 690 240, 715 238
+      C 745 236, 772 258, 790 286
+      C 808 314, 820 350, 840 350
 
-      L 950 350
+      L 948 350
 
-      L 968 312
-      L 985 395
-      L 1002 205
-      L 1020 472
-      L 1038 332
+      L 965 314
+      L 982 392
+      L 1000 212
+      L 1018 470
+      L 1036 330
       L 1054 350
       L 1160 350
     `;
 
-    const PATH_CAT = `
+    const CAT_PATH = `
       M 40 350
-      L 150 350
+      L 148 350
 
-      L 170 350
-      L 186 300
-      L 200 378
-      L 220 160
-      L 240 510
-      L 258 325
-      L 274 362
-      L 290 278
-      L 308 342
-      L 324 315
-      L 342 350
+      L 166 350
+      L 182 306
+      L 196 380
+      L 216 168
+      L 236 505
+      L 254 328
+      L 270 360
+      L 287 282
+      L 304 340
+      L 322 316
+      L 340 350
 
-      L 490 350
+      L 500 350
 
-      C 520 350, 536 316, 548 248
-      C 557 196, 572 148, 590 112
-      C 602 150, 618 190, 637 232
+      C 522 350, 535 310, 545 252
+      C 553 205, 565 155, 580 116
+      C 594 146, 610 188, 628 236
 
-      C 646 252, 654 262, 660 266
+      C 639 262, 651 276, 660 278
 
-      C 666 262, 674 252, 683 232
-      C 702 190, 718 150, 730 112
-      C 748 148, 763 196, 772 248
-      C 784 316, 800 350, 830 350
+      C 669 276, 681 262, 692 236
+      C 710 188, 726 146, 740 116
+      C 755 155, 767 205, 775 252
+      C 785 310, 798 350, 820 350
 
-      L 950 350
+      L 948 350
 
-      L 968 312
-      L 985 395
-      L 1002 205
-      L 1020 472
-      L 1038 332
+      L 965 314
+      L 982 392
+      L 1000 212
+      L 1018 470
+      L 1036 330
       L 1054 350
       L 1160 350
     `;
 
-    const baseGlowPath = document.getElementById("baseGlowPath");
-    const baseLinePath = document.getElementById("baseLinePath");
-    const tailPath = document.getElementById("tailPath");
+    const PATHS = [HEART_PATH, CAT_PATH];
+
+    const ghostPath = document.getElementById("ghostPath");
+    const tailGlow = document.getElementById("tailGlow");
+    const tailMid = document.getElementById("tailMid");
+    const tailCore = document.getElementById("tailCore");
     const dotGlow = document.getElementById("dotGlow");
     const dotCore = document.getElementById("dotCore");
+    const sparkLayer = document.getElementById("sparkLayer");
 
-    const shapePaths = [PATH_HEART, PATH_CAT];
-
-    // 节奏：
-    // 当前你说“不要太慢，在现在基础上可能多0.1s”
-    // 这里设 1.6s 一轮（比 1.5s 慢一点点）
+    // 节奏：在原来基础上 +0.1s
     const DURATION = 1600;
 
-    // 拖尾更长一点，更丝滑
+    // 拖尾保留时间：不要太短，也不要太慢
     const TAIL_MS = 560;
 
     let startTime = null;
+    let currentPathIndex = -1;
 
-    function setCurrentShape(pathData) {
-      baseGlowPath.setAttribute("d", pathData);
-      baseLinePath.setAttribute("d", pathData);
-      tailPath.setAttribute("d", pathData);
+    function applyPath(d) {
+      ghostPath.setAttribute("d", d);
+      tailGlow.setAttribute("d", d);
+      tailMid.setAttribute("d", d);
+      tailCore.setAttribute("d", d);
+    }
+
+    function setSegment(pathEl, totalLength, fromLen, toLen) {
+      const visible = Math.max(0.001, toLen - fromLen);
+      pathEl.style.strokeDasharray = `${visible} ${totalLength}`;
+      pathEl.style.strokeDashoffset = -fromLen;
+    }
+
+    function easeOut(t) {
+      return 1 - Math.pow(1 - t, 2.4);
     }
 
     function animate(now) {
       if (!startTime) startTime = now;
 
-      const totalElapsed = now - startTime;
-      const cycleIndex = Math.floor(totalElapsed / DURATION);
-      const cycleProgress = (totalElapsed % DURATION) / DURATION;
+      const elapsed = now - startTime;
+      const cycle = Math.floor(elapsed / DURATION);
+      const t = (elapsed % DURATION) / DURATION;
 
-      const activePathData = shapePaths[cycleIndex % shapePaths.length];
-      setCurrentShape(activePathData);
+      const pathIndex = cycle % PATHS.length;
 
-      const totalLength = tailPath.getTotalLength();
+      if (pathIndex !== currentPathIndex) {
+        currentPathIndex = pathIndex;
+        applyPath(PATHS[pathIndex]);
+      }
 
-      // 更平滑的进度，让运动不要“卡”
-      const eased = 1 - Math.pow(1 - cycleProgress, 2.2);
-      const head = totalLength * eased;
+      const totalLength = tailCore.getTotalLength();
 
-      const tailFraction = TAIL_MS / DURATION;
-      const tailProgress = Math.max(0, cycleProgress - tailFraction);
-      const tailEased = 1 - Math.pow(1 - tailProgress, 2.2);
-      const tail = totalLength * tailEased;
+      const headProgress = easeOut(t);
+      const headLen = totalLength * headProgress;
 
-      const visibleLength = Math.max(0.001, head - tail);
+      const tailProgressRaw = Math.max(0, (elapsed % DURATION) - TAIL_MS) / DURATION;
+      const tailProgress = easeOut(Math.min(tailProgressRaw, 1));
+      const tailLen = totalLength * tailProgress;
 
-      // 动态拖尾：只显示一小段移动的发光线
-      tailPath.style.strokeDasharray = `${visibleLength} ${totalLength}`;
-      tailPath.style.strokeDashoffset = -tail;
+      setSegment(tailGlow, totalLength, tailLen, headLen);
+      setSegment(tailMid, totalLength, tailLen, headLen);
+      setSegment(tailCore, totalLength, tailLen, headLen);
 
-      // 小点位置
-      const p = tailPath.getPointAtLength(Math.min(head, totalLength));
+      const p = tailCore.getPointAtLength(Math.min(headLen, totalLength));
       dotGlow.setAttribute("cx", p.x);
       dotGlow.setAttribute("cy", p.y);
       dotCore.setAttribute("cx", p.x);
@@ -335,6 +351,48 @@
     }
 
     requestAnimationFrame(animate);
+
+    // =========================
+    // 随机闪烁小爱心：闪完就消失，换地方再出现
+    // =========================
+
+    function spawnSparkHeart() {
+      const heart = document.createElement("div");
+      heart.className = "spark-heart";
+
+      // 尽量避开底部文字区域 & 中心主路径过密区域
+      const x = Math.random() * 88 + 4;     // 4% ~ 92%
+      const yPool = Math.random();
+      let y;
+
+      if (yPool < 0.5) {
+        y = Math.random() * 22 + 8;         // 上方
+      } else {
+        y = Math.random() * 28 + 56;        // 下方但避开底部文字
+      }
+
+      const size = Math.random() * 8 + 8;   // 8 ~ 16px
+
+      heart.style.left = `${x}%`;
+      heart.style.top = `${y}%`;
+      heart.style.width = `${size}px`;
+      heart.style.height = `${size}px`;
+
+      sparkLayer.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 1600);
+    }
+
+    // 初始先来几颗，后面随机补
+    setTimeout(spawnSparkHeart, 300);
+    setTimeout(spawnSparkHeart, 900);
+    setTimeout(spawnSparkHeart, 1500);
+
+    setInterval(() => {
+      spawnSparkHeart();
+    }, 900);
   </script>
 </body>
 </html>
