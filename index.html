@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heartbeat to Coco</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #000;
+      overflow: hidden;
+      font-family: "Georgia", "Times New Roman", serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .wrapper {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .glow-line {
+      fill: none;
+      stroke: rgba(255,255,255,0.18);
+      stroke-width: 10;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: blur(7px);
+    }
+
+    .main-line {
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .dot-glow {
+      fill: rgba(255,255,255,0.25);
+      filter: blur(8px);
+    }
+
+    .dot {
+      fill: #ffffff;
+    }
+
+    .text {
+      position: absolute;
+      bottom: 40px;
+      width: 100%;
+      text-align: center;
+      color: rgba(255,255,255,0.92);
+      font-size: 28px;
+      font-style: italic;
+      letter-spacing: 1px;
+      text-shadow: 0 0 8px rgba(255,255,255,0.25);
+      user-select: none;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid meet">
+      <path
+        id="heartPath"
+        d="
+          M 70 350
+          L 170 350
+
+          Q 185 350 195 320
+          Q 205 290 220 350
+
+          Q 240 430 265 130
+          Q 290 520 320 350
+
+          Q 335 315 350 365
+          Q 370 395 395 270
+          Q 420 355 440 315
+          Q 455 355 470 350
+
+          L 520 350
+
+          C 545 300, 585 255, 620 255
+          C 655 255, 685 285, 705 315
+          C 725 285, 755 255, 790 255
+          C 825 255, 865 300, 890 350
+
+          L 980 350
+          L 1130 350
+        "
+        class="main-line"
+      />
+
+      <path
+        d="
+          M 70 350
+          L 170 350
+
+          Q 185 350 195 320
+          Q 205 290 220 350
+
+          Q 240 430 265 130
+          Q 290 520 320 350
+
+          Q 335 315 350 365
+          Q 370 395 395 270
+          Q 420 355 440 315
+          Q 455 355 470 350
+
+          L 520 350
+
+          C 545 300, 585 255, 620 255
+          C 655 255, 685 285, 705 315
+          C 725 285, 755 255, 790 255
+          C 825 255, 865 300, 890 350
+
+          L 980 350
+          L 1130 350
+        "
+        class="glow-line"
+      />
+
+      <circle id="dotGlow" class="dot-glow" r="14" cx="70" cy="350"></circle>
+      <circle id="dot" class="dot" r="6" cx="70" cy="350"></circle>
+    </svg>
+
+    <div class="text">to coco</div>
+  </div>
+
+  <script>
+    const path = document.getElementById("heartPath");
+    const dot = document.getElementById("dot");
+    const dotGlow = document.getElementById("dotGlow");
+
+    const pathLength = path.getTotalLength();
+
+    path.style.strokeDasharray = pathLength;
+    path.style.strokeDashoffset = pathLength;
+
+    const DURATION = 2600; 
+    let startTime = null;
+
+    function animate(timestamp) {
+      if (!startTime) startTime = timestamp;
+
+      const elapsed = (timestamp - startTime) % DURATION;
+      const progress = elapsed / DURATION;
+
+      const drawAmount = pathLength * progress;
+      path.style.strokeDashoffset = pathLength - drawAmount;
+
+      const point = path.getPointAtLength(drawAmount);
+      dot.setAttribute("cx", point.x);
+      dot.setAttribute("cy", point.y);
+      dotGlow.setAttribute("cx", point.x);
+      dotGlow.setAttribute("cy", point.y);
+
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
