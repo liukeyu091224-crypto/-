@@ -3,7 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Heartbeat to Coco</title>
+  <title>To Coco</title>
+
+  <!-- 连笔字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+
   <style>
     * {
       box-sizing: border-box;
@@ -11,20 +17,26 @@
       padding: 0;
     }
 
-    body {
-      background: #000;
+    html, body {
+      width: 100%;
+      height: 100%;
       overflow: hidden;
-      font-family: "Georgia", "Times New Roman", serif;
+      background: #000;
+    }
+
+    body {
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      font-family: sans-serif;
     }
 
-    .wrapper {
+    .scene {
       position: relative;
       width: 100vw;
       height: 100vh;
+      overflow: hidden;
+      background: #000;
     }
 
     svg {
@@ -33,143 +45,291 @@
       display: block;
     }
 
-    .glow-line {
+    /* 主线条 */
+    .main-line-glow {
       fill: none;
-      stroke: rgba(255,255,255,0.18);
+      stroke: #ff8fb4;
       stroke-width: 10;
       stroke-linecap: round;
       stroke-linejoin: round;
+      opacity: 0.18;
       filter: blur(7px);
     }
 
     .main-line {
       fill: none;
-      stroke: #ffffff;
-      stroke-width: 3;
+      stroke: #ffd2e1;
+      stroke-width: 2.8;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
+    .tail-line {
+      fill: none;
+      stroke: #ff8fb4;
+      stroke-width: 4.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.95;
+      filter: drop-shadow(0 0 7px rgba(255, 120, 170, 0.8))
+              drop-shadow(0 0 14px rgba(255, 120, 170, 0.35));
+    }
+
     .dot-glow {
-      fill: rgba(255,255,255,0.25);
+      fill: #ff9fc0;
+      opacity: 0.95;
       filter: blur(8px);
     }
 
-    .dot {
-      fill: #ffffff;
+    .dot-core {
+      fill: #fff2f7;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.8));
     }
 
-    .text {
+    /* 底部文字 */
+    .caption {
       position: absolute;
-      bottom: 40px;
+      bottom: 28px;
       width: 100%;
       text-align: center;
-      color: rgba(255,255,255,0.92);
-      font-size: 28px;
-      font-style: italic;
+      color: #ffd5e4;
+      font-size: clamp(28px, 3.2vw, 52px);
+      font-family: "Parisienne", cursive;
       letter-spacing: 1px;
-      text-shadow: 0 0 8px rgba(255,255,255,0.25);
+      text-shadow:
+        0 0 6px rgba(255, 170, 205, 0.75),
+        0 0 14px rgba(255, 120, 170, 0.45),
+        0 0 28px rgba(255, 120, 170, 0.25);
       user-select: none;
       pointer-events: none;
+    }
+
+    /* 背景小爱心 */
+    .spark-heart {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: #ff7daf;
+      transform: rotate(-45deg) scale(0.9);
+      opacity: 0;
+      border-radius: 3px;
+      box-shadow:
+        0 0 10px rgba(255, 120, 170, 0.95),
+        0 0 20px rgba(255, 120, 170, 0.55),
+        0 0 36px rgba(255, 120, 170, 0.28);
+      animation: twinkle 3.2s infinite ease-in-out;
+    }
+
+    .spark-heart::before,
+    .spark-heart::after {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: #ff7daf;
+      border-radius: 50%;
+      box-shadow:
+        0 0 10px rgba(255, 120, 170, 0.95),
+        0 0 20px rgba(255, 120, 170, 0.55),
+        0 0 36px rgba(255, 120, 170, 0.28);
+    }
+
+    .spark-heart::before {
+      top: -7px;
+      left: 0;
+    }
+
+    .spark-heart::after {
+      top: 0;
+      left: 7px;
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0.05;
+        transform: rotate(-45deg) scale(0.78);
+      }
+      30% {
+        opacity: 0.95;
+        transform: rotate(-45deg) scale(1);
+      }
+      55% {
+        opacity: 0.35;
+        transform: rotate(-45deg) scale(0.9);
+      }
+      75% {
+        opacity: 0.9;
+        transform: rotate(-45deg) scale(1.08);
+      }
     }
   </style>
 </head>
 <body>
-  <div class="wrapper">
+  <div class="scene">
+    <!-- 背景闪烁小爱心 -->
+    <div class="spark-heart" style="left: 10%; top: 18%; animation-delay: 0.1s;"></div>
+    <div class="spark-heart" style="left: 22%; top: 72%; width: 10px; height: 10px; animation-delay: 1.1s;"></div>
+    <div class="spark-heart" style="left: 34%; top: 20%; width: 12px; height: 12px; animation-delay: 2.0s;"></div>
+    <div class="spark-heart" style="left: 58%; top: 14%; animation-delay: 0.7s;"></div>
+    <div class="spark-heart" style="left: 72%; top: 76%; width: 11px; height: 11px; animation-delay: 1.8s;"></div>
+    <div class="spark-heart" style="left: 86%; top: 26%; width: 13px; height: 13px; animation-delay: 2.5s;"></div>
+
     <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid meet">
-      <path
-        id="heartPath"
-        d="
-          M 70 350
-          L 170 350
+      <!-- 柔和的底部发光 -->
+      <path id="baseGlowPath" class="main-line-glow"></path>
 
-          Q 185 350 195 320
-          Q 205 290 220 350
+      <!-- 非常淡的静态基线 -->
+      <path id="baseLinePath" class="main-line" opacity="0.08"></path>
 
-          Q 240 430 265 130
-          Q 290 520 320 350
+      <!-- 动态拖尾 -->
+      <path id="tailPath" class="tail-line"></path>
 
-          Q 335 315 350 365
-          Q 370 395 395 270
-          Q 420 355 440 315
-          Q 455 355 470 350
-
-          L 520 350
-
-          C 545 300, 585 255, 620 255
-          C 655 255, 685 285, 705 315
-          C 725 285, 755 255, 790 255
-          C 825 255, 865 300, 890 350
-
-          L 980 350
-          L 1130 350
-        "
-        class="main-line"
-      />
-
-      <path
-        d="
-          M 70 350
-          L 170 350
-
-          Q 185 350 195 320
-          Q 205 290 220 350
-
-          Q 240 430 265 130
-          Q 290 520 320 350
-
-          Q 335 315 350 365
-          Q 370 395 395 270
-          Q 420 355 440 315
-          Q 455 355 470 350
-
-          L 520 350
-
-          C 545 300, 585 255, 620 255
-          C 655 255, 685 285, 705 315
-          C 725 285, 755 255, 790 255
-          C 825 255, 865 300, 890 350
-
-          L 980 350
-          L 1130 350
-        "
-        class="glow-line"
-      />
-
-      <circle id="dotGlow" class="dot-glow" r="14" cx="70" cy="350"></circle>
-      <circle id="dot" class="dot" r="6" cx="70" cy="350"></circle>
+      <!-- 发光小点 -->
+      <circle id="dotGlow" class="dot-glow" r="10"></circle>
+      <circle id="dotCore" class="dot-core" r="3.6"></circle>
     </svg>
 
-    <div class="text">to coco</div>
+    <div class="caption">to coco</div>
   </div>
 
   <script>
-    const path = document.getElementById("heartPath");
-    const dot = document.getElementById("dot");
+    // ------------------------------
+    // 两套路径：heart / kitty-ears
+    // ------------------------------
+    const PATH_HEART = `
+      M 40 350
+      L 150 350
+
+      L 170 350
+      L 186 300
+      L 200 378
+      L 220 160
+      L 240 510
+      L 258 325
+      L 274 362
+      L 290 278
+      L 308 342
+      L 324 315
+      L 342 350
+
+      L 455 350
+
+      C 485 350, 500 282, 540 260
+      C 572 242, 610 258, 632 292
+      C 646 312, 654 328, 660 350
+
+      C 666 328, 674 312, 688 292
+      C 710 258, 748 242, 780 260
+      C 820 282, 835 350, 865 350
+
+      L 950 350
+
+      L 968 312
+      L 985 395
+      L 1002 205
+      L 1020 472
+      L 1038 332
+      L 1054 350
+      L 1160 350
+    `;
+
+    const PATH_CAT = `
+      M 40 350
+      L 150 350
+
+      L 170 350
+      L 186 300
+      L 200 378
+      L 220 160
+      L 240 510
+      L 258 325
+      L 274 362
+      L 290 278
+      L 308 342
+      L 324 315
+      L 342 350
+
+      L 490 350
+
+      C 520 350, 536 316, 548 248
+      C 557 196, 572 148, 590 112
+      C 602 150, 618 190, 637 232
+
+      C 646 252, 654 262, 660 266
+
+      C 666 262, 674 252, 683 232
+      C 702 190, 718 150, 730 112
+      C 748 148, 763 196, 772 248
+      C 784 316, 800 350, 830 350
+
+      L 950 350
+
+      L 968 312
+      L 985 395
+      L 1002 205
+      L 1020 472
+      L 1038 332
+      L 1054 350
+      L 1160 350
+    `;
+
+    const baseGlowPath = document.getElementById("baseGlowPath");
+    const baseLinePath = document.getElementById("baseLinePath");
+    const tailPath = document.getElementById("tailPath");
     const dotGlow = document.getElementById("dotGlow");
+    const dotCore = document.getElementById("dotCore");
 
-    const pathLength = path.getTotalLength();
+    const shapePaths = [PATH_HEART, PATH_CAT];
 
-    path.style.strokeDasharray = pathLength;
-    path.style.strokeDashoffset = pathLength;
+    // 节奏：
+    // 当前你说“不要太慢，在现在基础上可能多0.1s”
+    // 这里设 1.6s 一轮（比 1.5s 慢一点点）
+    const DURATION = 1600;
 
-    const DURATION = 2600; 
+    // 拖尾更长一点，更丝滑
+    const TAIL_MS = 560;
+
     let startTime = null;
 
-    function animate(timestamp) {
-      if (!startTime) startTime = timestamp;
+    function setCurrentShape(pathData) {
+      baseGlowPath.setAttribute("d", pathData);
+      baseLinePath.setAttribute("d", pathData);
+      tailPath.setAttribute("d", pathData);
+    }
 
-      const elapsed = (timestamp - startTime) % DURATION;
-      const progress = elapsed / DURATION;
+    function animate(now) {
+      if (!startTime) startTime = now;
 
-      const drawAmount = pathLength * progress;
-      path.style.strokeDashoffset = pathLength - drawAmount;
+      const totalElapsed = now - startTime;
+      const cycleIndex = Math.floor(totalElapsed / DURATION);
+      const cycleProgress = (totalElapsed % DURATION) / DURATION;
 
-      const point = path.getPointAtLength(drawAmount);
-      dot.setAttribute("cx", point.x);
-      dot.setAttribute("cy", point.y);
-      dotGlow.setAttribute("cx", point.x);
-      dotGlow.setAttribute("cy", point.y);
+      const activePathData = shapePaths[cycleIndex % shapePaths.length];
+      setCurrentShape(activePathData);
+
+      const totalLength = tailPath.getTotalLength();
+
+      // 更平滑的进度，让运动不要“卡”
+      const eased = 1 - Math.pow(1 - cycleProgress, 2.2);
+      const head = totalLength * eased;
+
+      const tailFraction = TAIL_MS / DURATION;
+      const tailProgress = Math.max(0, cycleProgress - tailFraction);
+      const tailEased = 1 - Math.pow(1 - tailProgress, 2.2);
+      const tail = totalLength * tailEased;
+
+      const visibleLength = Math.max(0.001, head - tail);
+
+      // 动态拖尾：只显示一小段移动的发光线
+      tailPath.style.strokeDasharray = `${visibleLength} ${totalLength}`;
+      tailPath.style.strokeDashoffset = -tail;
+
+      // 小点位置
+      const p = tailPath.getPointAtLength(Math.min(head, totalLength));
+      dotGlow.setAttribute("cx", p.x);
+      dotGlow.setAttribute("cy", p.y);
+      dotCore.setAttribute("cx", p.x);
+      dotCore.setAttribute("cy", p.y);
 
       requestAnimationFrame(animate);
     }
