@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>to coco</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>to coco ♡</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,11 +24,6 @@
       background: #000;
     }
 
-    body {
-      background: #000;
-      font-family: sans-serif;
-    }
-
     .scene {
       position: relative;
       width: 100vw;
@@ -36,363 +32,393 @@
       background: #000;
     }
 
-    svg {
+    .heartbeat-svg {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
-      display: block;
     }
 
-    /* 非常淡的残影底线 */
-    .ghost-line {
+    .trace {
       fill: none;
-      stroke: rgba(255,255,255,0.08);
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      filter: blur(0.4px);
-    }
-
-    /* 主发光拖尾 - 外层光 */
-    .tail-glow {
-      fill: none;
-      stroke: rgba(255,255,255,0.22);
-      stroke-width: 8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      filter: blur(5px);
-    }
-
-    /* 主发光拖尾 - 中层光 */
-    .tail-mid {
-      fill: none;
-      stroke: rgba(255,255,255,0.38);
-      stroke-width: 4.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      filter: blur(2px);
-    }
-
-    /* 主线核心：细白线 */
-    .tail-core {
-      fill: none;
-      stroke: #ffffff;
+      stroke: white;
       stroke-width: 1.8;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
-    .dot-glow {
-      fill: rgba(255,255,255,0.95);
-      filter: blur(6px);
+    .trace-glow {
+      fill: none;
+      stroke: white;
+      stroke-width: 7;
+      opacity: 0.55;
+      filter: blur(5px);
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
-    .dot-core {
-      fill: #ffffff;
+    .trace-soft {
+      fill: none;
+      stroke: white;
+      stroke-width: 13;
+      opacity: 0.16;
+      filter: blur(10px);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .light-dot {
+      fill: white;
+      filter: drop-shadow(0 0 5px white);
+    }
+
+    .light-halo {
+      fill: white;
+      opacity: 0.55;
+      filter: blur(7px);
     }
 
     .caption {
       position: absolute;
+      bottom: 7%;
       left: 0;
-      right: 0;
-      bottom: 30px;
+      width: 100%;
       text-align: center;
-      font-family: "Great Vibes", cursive;
-      font-size: clamp(34px, 4vw, 60px);
-      color: #ffd7e6;
-      letter-spacing: 0.5px;
+      font-family: "Great Vibes", "Brush Script MT", cursive;
+      font-size: clamp(38px, 5vw, 64px);
+      color: #ffd6e5;
       text-shadow:
-        0 0 8px rgba(255, 170, 205, 0.85),
-        0 0 16px rgba(255, 150, 190, 0.55),
-        0 0 28px rgba(255, 120, 170, 0.28);
-      user-select: none;
+        0 0 5px #ffb4cf,
+        0 0 13px #ff83b1,
+        0 0 28px rgba(255, 105, 170, 0.45);
       pointer-events: none;
+      user-select: none;
     }
 
-    /* 随机出现的小爱心容器 */
     #sparkLayer {
       position: absolute;
       inset: 0;
       pointer-events: none;
-      overflow: hidden;
     }
 
-    .spark-heart {
+    .spark {
       position: absolute;
-      width: 14px;
-      height: 14px;
-      transform: rotate(-45deg) scale(0.75);
-      background: #ff82b3;
-      border-radius: 3px;
+      width: 16px;
+      height: 16px;
+      overflow: visible;
+      color: #ff85b8;
       opacity: 0;
-      box-shadow:
-        0 0 8px rgba(255, 120, 170, 0.9),
-        0 0 18px rgba(255, 120, 170, 0.55),
-        0 0 30px rgba(255, 120, 170, 0.28);
-      animation: heartFlash 1.5s ease-out forwards;
+      filter:
+        drop-shadow(0 0 5px #ff85b8)
+        drop-shadow(0 0 12px rgba(255, 85, 150, 0.8));
+      animation: sparkle 1.3s ease-in-out forwards;
     }
 
-    .spark-heart::before,
-    .spark-heart::after {
-      content: "";
-      position: absolute;
-      width: 14px;
-      height: 14px;
-      background: #ff82b3;
-      border-radius: 50%;
-      box-shadow:
-        0 0 8px rgba(255, 120, 170, 0.9),
-        0 0 18px rgba(255, 120, 170, 0.55),
-        0 0 30px rgba(255, 120, 170, 0.28);
+    .spark svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
     }
 
-    .spark-heart::before {
-      left: 0;
-      top: -7px;
-    }
-
-    .spark-heart::after {
-      left: 7px;
-      top: 0;
-    }
-
-    @keyframes heartFlash {
+    @keyframes sparkle {
       0% {
         opacity: 0;
-        transform: rotate(-45deg) scale(0.55);
+        transform: scale(0.35);
       }
-      20% {
+      25% {
         opacity: 1;
-        transform: rotate(-45deg) scale(0.95);
+        transform: scale(1.1);
       }
-      55% {
-        opacity: 0.9;
-        transform: rotate(-45deg) scale(1.05);
+      50% {
+        opacity: 0.85;
+        transform: scale(0.95);
       }
       100% {
         opacity: 0;
-        transform: rotate(-45deg) scale(0.75);
+        transform: scale(0.3);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .spark {
+        animation: none;
       }
     }
   </style>
 </head>
+
 <body>
   <div class="scene">
+
     <div id="sparkLayer"></div>
 
-    <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid meet">
-      <!-- 淡残影 -->
-      <path id="ghostPath" class="ghost-line"></path>
+    <svg class="heartbeat-svg"
+         viewBox="0 0 1200 700"
+         preserveAspectRatio="xMidYMid meet">
 
-      <!-- 三层拖尾 -->
-      <path id="tailGlow" class="tail-glow"></path>
-      <path id="tailMid" class="tail-mid"></path>
-      <path id="tailCore" class="tail-core"></path>
+      <path id="soft" class="trace-soft"></path>
+      <path id="glow" class="trace-glow"></path>
+      <path id="line" class="trace"></path>
 
-      <!-- 小光点 -->
-      <circle id="dotGlow" class="dot-glow" r="7"></circle>
-      <circle id="dotCore" class="dot-core" r="2.5"></circle>
+      <circle id="halo" class="light-halo" r="10"></circle>
+      <circle id="dot" class="light-dot" r="2.8"></circle>
     </svg>
 
     <div class="caption">to coco</div>
   </div>
 
   <script>
-    // =========================
-    // 路径：更精致的爱心 + 可爱猫耳朵
-    // =========================
+    // ===================================
+    // ECG: sharp peaks, thin glowing line
+    // ===================================
 
-    const HEART_PATH = `
-      M 40 350
-      L 148 350
+    const ECG_LEFT = `
+      M 25 370
+      L 125 370
 
-      L 166 350
-      L 182 306
-      L 196 380
-      L 216 168
-      L 236 505
-      L 254 328
-      L 270 360
-      L 287 282
-      L 304 340
-      L 322 316
-      L 340 350
+      L 152 370
+      L 164 352
+      L 174 382
+      L 192 205
+      L 211 485
+      L 229 350
+      L 242 374
+      L 258 320
+      L 272 368
+      L 289 355
+      L 305 370
 
-      L 480 350
-
-      C 500 350, 512 314, 530 286
-      C 548 258, 575 236, 605 238
-      C 630 240, 648 258, 660 286
-
-      C 672 258, 690 240, 715 238
-      C 745 236, 772 258, 790 286
-      C 808 314, 820 350, 840 350
-
-      L 948 350
-
-      L 965 314
-      L 982 392
-      L 1000 212
-      L 1018 470
-      L 1036 330
-      L 1054 350
-      L 1160 350
+      L 410 370
     `;
 
-    const CAT_PATH = `
-      M 40 350
-      L 148 350
+    const ECG_RIGHT = `
+      L 905 370
 
-      L 166 350
-      L 182 306
-      L 196 380
-      L 216 168
-      L 236 505
-      L 254 328
-      L 270 360
-      L 287 282
-      L 304 340
-      L 322 316
-      L 340 350
+      L 929 370
+      L 943 346
+      L 954 385
+      L 972 211
+      L 991 477
+      L 1009 352
+      L 1022 374
+      L 1039 328
+      L 1054 369
+      L 1070 355
+      L 1084 370
 
-      L 500 350
-
-      C 522 350, 535 310, 545 252
-      C 553 205, 565 155, 580 116
-      C 594 146, 610 188, 628 236
-
-      C 639 262, 651 276, 660 278
-
-      C 669 276, 681 262, 692 236
-      C 710 188, 726 146, 740 116
-      C 755 155, 767 205, 775 252
-      C 785 310, 798 350, 820 350
-
-      L 948 350
-
-      L 965 314
-      L 982 392
-      L 1000 212
-      L 1018 470
-      L 1036 330
-      L 1054 350
-      L 1160 350
+      L 1175 370
     `;
+
+    // ===================================
+    // Heart:
+    // upright, rounded upper lobes;
+    // pointed bottom touches baseline.
+    // ===================================
+
+    const HEART = `
+      L 446 370
+
+      C 448 319, 470 257, 505 225
+      C 534 197, 572 202, 598 233
+      C 620 259, 630 299, 646 327
+
+      C 663 299, 674 259, 697 233
+      C 724 202, 762 197, 792 225
+      C 828 257, 847 319, 847 370
+
+      C 823 416, 742 470, 646 524
+      C 554 470, 471 416, 446 370
+
+      L 905 370
+    `;
+
+    // This is an open heart outline that travels
+    // down to its bottom tip and returns to ECG.
+    // The shape stays distinct from the cat ears.
+
+    const HEART_CONTINUOUS = `
+      L 455 370
+
+      C 448 333, 456 287, 480 254
+      C 506 216, 542 205, 569 217
+      C 603 229, 628 269, 647 302
+
+      C 666 269, 690 229, 724 217
+      C 751 205, 788 216, 814 254
+      C 837 287, 844 333, 837 370
+
+      C 825 412, 751 465, 647 526
+      C 543 465, 467 412, 455 370
+
+      L 905 370
+    `;
+
+    // ===================================
+    // Cat ears:
+    // short, rounded, cute ears only.
+    // No full face or long cheeks.
+    // ===================================
+
+    const CAT = `
+      L 490 370
+
+      C 509 370, 519 343, 527 319
+      C 537 290, 542 268, 555 249
+
+      Q 561 241, 567 253
+      C 581 280, 595 304, 611 322
+
+      C 629 319, 658 319, 679 322
+
+      C 695 304, 709 280, 723 253
+      Q 729 241, 735 249
+
+      C 748 268, 753 290, 763 319
+      C 771 343, 781 370, 800 370
+
+      L 905 370
+    `;
+
+    // ===================================
+    // Keep only the correct central path:
+    // heart and cat alternate each cycle.
+    // ===================================
+
+    const HEART_PATH =
+      ECG_LEFT + HEART_CONTINUOUS + ECG_RIGHT;
+
+    const CAT_PATH =
+      ECG_LEFT + CAT + ECG_RIGHT;
 
     const PATHS = [HEART_PATH, CAT_PATH];
 
-    const ghostPath = document.getElementById("ghostPath");
-    const tailGlow = document.getElementById("tailGlow");
-    const tailMid = document.getElementById("tailMid");
-    const tailCore = document.getElementById("tailCore");
-    const dotGlow = document.getElementById("dotGlow");
-    const dotCore = document.getElementById("dotCore");
-    const sparkLayer = document.getElementById("sparkLayer");
+    const line = document.getElementById("line");
+    const glow = document.getElementById("glow");
+    const soft = document.getElementById("soft");
+    const dot = document.getElementById("dot");
+    const halo = document.getElementById("halo");
 
-    // 节奏：在原来基础上 +0.1s
-    const DURATION = 1600;
-
-    // 拖尾保留时间：不要太短，也不要太慢
+    // Animation timing
+    const DURATION = 1500;
     const TAIL_MS = 560;
 
     let startTime = null;
-    let currentPathIndex = -1;
+    let currentCycle = -1;
+    let totalLength = 0;
 
-    function applyPath(d) {
-      ghostPath.setAttribute("d", d);
-      tailGlow.setAttribute("d", d);
-      tailMid.setAttribute("d", d);
-      tailCore.setAttribute("d", d);
+    function changeShape(index) {
+      const d = PATHS[index];
+
+      line.setAttribute("d", d);
+      glow.setAttribute("d", d);
+      soft.setAttribute("d", d);
+
+      totalLength = line.getTotalLength();
     }
 
-    function setSegment(pathEl, totalLength, fromLen, toLen) {
-      const visible = Math.max(0.001, toLen - fromLen);
-      pathEl.style.strokeDasharray = `${visible} ${totalLength}`;
-      pathEl.style.strokeDashoffset = -fromLen;
+    function drawSegment(path, from, to) {
+      const length = Math.max(0.01, to - from);
+
+      path.style.strokeDasharray =
+        `${length} ${totalLength + 1}`;
+
+      path.style.strokeDashoffset = -from;
     }
 
-    function easeOut(t) {
-      return 1 - Math.pow(1 - t, 2.4);
-    }
+    function animate(timestamp) {
+      if (startTime === null) startTime = timestamp;
 
-    function animate(now) {
-      if (!startTime) startTime = now;
-
-      const elapsed = now - startTime;
+      const elapsed = timestamp - startTime;
       const cycle = Math.floor(elapsed / DURATION);
-      const t = (elapsed % DURATION) / DURATION;
+      const currentTime = elapsed % DURATION;
+      const progress = currentTime / DURATION;
 
-      const pathIndex = cycle % PATHS.length;
-
-      if (pathIndex !== currentPathIndex) {
-        currentPathIndex = pathIndex;
-        applyPath(PATHS[pathIndex]);
+      if (cycle !== currentCycle) {
+        currentCycle = cycle;
+        changeShape(cycle % 2);
       }
 
-      const totalLength = tailCore.getTotalLength();
+      // Constant travel speed along the SVG.
+      const head = totalLength * progress;
 
-      const headProgress = easeOut(t);
-      const headLen = totalLength * headProgress;
+      // Moving tail, fading behind the head.
+      const tailProgress =
+        Math.max(0, (currentTime - TAIL_MS) / DURATION);
 
-      const tailProgressRaw = Math.max(0, (elapsed % DURATION) - TAIL_MS) / DURATION;
-      const tailProgress = easeOut(Math.min(tailProgressRaw, 1));
-      const tailLen = totalLength * tailProgress;
+      const tail = totalLength * tailProgress;
 
-      setSegment(tailGlow, totalLength, tailLen, headLen);
-      setSegment(tailMid, totalLength, tailLen, headLen);
-      setSegment(tailCore, totalLength, tailLen, headLen);
+      drawSegment(soft, tail, head);
+      drawSegment(glow, tail, head);
+      drawSegment(line, tail, head);
 
-      const p = tailCore.getPointAtLength(Math.min(headLen, totalLength));
-      dotGlow.setAttribute("cx", p.x);
-      dotGlow.setAttribute("cy", p.y);
-      dotCore.setAttribute("cx", p.x);
-      dotCore.setAttribute("cy", p.y);
+      const point = line.getPointAtLength(head);
+
+      dot.setAttribute("cx", point.x);
+      dot.setAttribute("cy", point.y);
+
+      halo.setAttribute("cx", point.x);
+      halo.setAttribute("cy", point.y);
 
       requestAnimationFrame(animate);
     }
 
     requestAnimationFrame(animate);
 
-    // =========================
-    // 随机闪烁小爱心：闪完就消失，换地方再出现
-    // =========================
+    // ===================================
+    // Pink filled hearts:
+    // flash once, disappear, change place.
+    // ===================================
 
-    function spawnSparkHeart() {
-      const heart = document.createElement("div");
-      heart.className = "spark-heart";
+    const sparkLayer = document.getElementById("sparkLayer");
 
-      // 尽量避开底部文字区域 & 中心主路径过密区域
-      const x = Math.random() * 88 + 4;     // 4% ~ 92%
-      const yPool = Math.random();
-      let y;
+    const heartSVG = `
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 21
+          C10 19.4 2 13.4 2 7.7
+          C2 4.5 4.4 2.5 7.4 2.5
+          C9.4 2.5 11 3.5 12 5
+          C13 3.5 14.6 2.5 16.6 2.5
+          C19.6 2.5 22 4.5 22 7.7
+          C22 13.4 14 19.4 12 21Z"/>
+      </svg>
+    `;
 
-      if (yPool < 0.5) {
-        y = Math.random() * 22 + 8;         // 上方
-      } else {
-        y = Math.random() * 28 + 56;        // 下方但避开底部文字
-      }
+    function spawnHeart() {
+      const spark = document.createElement("div");
+      spark.className = "spark";
+      spark.innerHTML = heartSVG;
 
-      const size = Math.random() * 8 + 8;   // 8 ~ 16px
+      const size = 9 + Math.random() * 10;
+      const x = 5 + Math.random() * 90;
 
-      heart.style.left = `${x}%`;
-      heart.style.top = `${y}%`;
-      heart.style.width = `${size}px`;
-      heart.style.height = `${size}px`;
+      // Keep particles away from the main waveform
+      // and the bottom caption.
+      const y = Math.random() < 0.5
+        ? 7 + Math.random() * 19
+        : 70 + Math.random() * 13;
 
-      sparkLayer.appendChild(heart);
+      spark.style.left = `${x}%`;
+      spark.style.top = `${y}%`;
+      spark.style.width = `${size}px`;
+      spark.style.height = `${size}px`;
 
-      setTimeout(() => {
-        heart.remove();
-      }, 1600);
+      sparkLayer.appendChild(spark);
+
+      spark.addEventListener("animationend", () => {
+        spark.remove();
+      }, { once: true });
     }
 
-    // 初始先来几颗，后面随机补
-    setTimeout(spawnSparkHeart, 300);
-    setTimeout(spawnSparkHeart, 900);
-    setTimeout(spawnSparkHeart, 1500);
+    // Irregular timings give a star-like effect.
+    function scheduleNextHeart() {
+      spawnHeart();
 
-    setInterval(() => {
-      spawnSparkHeart();
-    }, 900);
+      const nextDelay = 500 + Math.random() * 950;
+      setTimeout(scheduleNextHeart, nextDelay);
+    }
+
+    setTimeout(scheduleNextHeart, 350);
   </script>
 </body>
 </html>
